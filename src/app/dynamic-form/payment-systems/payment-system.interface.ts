@@ -1,4 +1,6 @@
+import {PaymentSystemRule} from "./payment-system-rule.interface";
 export interface PaymentSystem {
   name: string;
-  rules: PaymentSystemRule[];
+  getRules(): PaymentSystemRule;
+  formElements(): any;
 }

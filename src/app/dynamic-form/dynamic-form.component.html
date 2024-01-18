@@ -1,0 +1,36 @@
+<form [formGroup]="depositForm" (ngSubmit)="onFormSubmit()">
+  <div>
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" formControlName="amount" />
+  </div>
+
+  <div>
+    <label for="systemId">System ID</label>
+    <input type="number" id="systemId" formControlName="systemId" />
+  </div>
+
+  <div>
+    <label for="system">System:</label>
+    <select id="system" formControlName="system">
+      <option *ngFor="let system of systemOptions" [value]="system.value">{{ system.label }}</option>
+    </select>
+  </div>
+
+  <!-- Динамические дополнительные поля в зависимости от выбранного systemId -->
+  <div *ngFor="let fieldConfig of rules?.controls">
+    <div *ngIf="rules?.nested!==null">
+      <div formGroupName="{{rules?.nested}}">
+        <label for="{{fieldConfig.label}}">{{ fieldConfig.label | titlecase }}:</label>
+        <input [type]="fieldConfig.type" [id]="fieldConfig.label" [formControlName]="fieldConfig.formControlName" />
+      </div>
+    </div>
+    <div *ngIf="rules?.nested===null">
+      <div>
+        <label for="{{fieldConfig.label}}">{{ fieldConfig.label | titlecase }}:</label>
+        <input [type]="fieldConfig.type" [id]="fieldConfig.label" [formControlName]="fieldConfig.formControlName" />
+      </div>
+    </div>
+  </div>
+
+  <button type="submit">Submit</button>
+</form>
